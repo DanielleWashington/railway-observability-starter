@@ -1,5 +1,7 @@
 services:
   tests:
+    # Match the local acceptance runner so it can write the host artifact mount.
+    user: "0"
     image: observability-load
     build:
       context: .
