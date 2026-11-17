@@ -1,0 +1,6 @@
+FROM python:3.12.12-slim
+WORKDIR /tests
+COPY tests/e2e.py tests/load.py tests/load_runner.py ./
+RUN mkdir /artifacts && chown 10001 /artifacts
+USER 10001
+CMD ["python", "-u", "load_runner.py"]

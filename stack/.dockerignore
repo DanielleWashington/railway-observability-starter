@@ -1,0 +1,7 @@
+.git
+.env
+.deploy
+.venv
+**/__pycache__
+artifacts
+docs

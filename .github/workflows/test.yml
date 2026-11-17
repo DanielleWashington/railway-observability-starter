@@ -1,0 +1,27 @@
+name: Stack acceptance
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  stack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: stack
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r examples/demo/requirements.txt
+      - run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - run: sh scripts/test-stack.sh
+      - run: sh scripts/test-payloads.sh
+      - run: sh scripts/test-recovery.sh
+      - run: docker compose run --build --rm ui-tests
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: acceptance-results
+          path: stack/artifacts/
+      - run: docker compose down
+        if: always()

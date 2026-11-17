@@ -1,0 +1,6 @@
+services:
+  tests:
+    image: observability-load
+    build:
+      context: .
+      dockerfile: tests/Dockerfile.load

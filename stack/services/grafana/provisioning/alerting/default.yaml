@@ -1,0 +1,86 @@
+apiVersion: 1
+groups:
+  - orgId: 1
+    name: Starter alerts
+    folder: Observability
+    interval: 10s
+    rules:
+      - uid: demo-high-error-rate
+        title: Demo API high error rate
+        condition: B
+        for: 20s
+        noDataState: OK
+        execErrState: Error
+        labels:
+          service: demo-api
+          severity: warning
+        annotations:
+          summary: Demo API error rate exceeds 5% with more than five requests in one minute
+          description: Inspect error logs and follow View trace to the failing request. Adjust the demo threshold and window for your application.
+          __dashboardUid__: observability-demo
+          __panelId__: "2"
+        data:
+          - refId: A
+            datasourceUid: prometheus
+            relativeTimeRange: {from: 60, to: 0}
+            model:
+              refId: A
+              expr: '(sum(rate(demo_requests_total{service="demo-api",status="500"}[1m])) / sum(rate(demo_requests_total{service="demo-api"}[1m])) > bool 0.05) * (sum(increase(demo_requests_total{service="demo-api"}[1m])) > bool 5)'
+              instant: true
+              range: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              refId: B
+              type: math
+              expression: $A > 0
+      - uid: collector-unavailable
+        title: Collector unavailable
+        condition: B
+        for: 30s
+        noDataState: Alerting
+        execErrState: Error
+        labels:
+          service: collector
+          severity: critical
+        annotations:
+          summary: Prometheus cannot scrape the Collector
+          description: Check Collector health, private networking, credentials, and memory limits.
+        data:
+          - refId: A
+            datasourceUid: prometheus
+            relativeTimeRange: {from: 60, to: 0}
+            model:
+              refId: A
+              expr: 'max(up{job="collector"} == bool 0) or absent(up{job="collector"})'
+              instant: true
+              range: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: B
+            datasourceUid: __expr__
+            model:
+              refId: B
+              type: math
+              expression: $A > 0
+contactPoints:
+  - orgId: 1
+    name: observability-webhook
+    receivers:
+      - uid: observability-webhook
+        type: webhook
+        disableResolveMessage: false
+        settings:
+          url: $ALERT_WEBHOOK_URL
+          httpMethod: POST
+          authorization_scheme: Bearer
+          authorization_credentials: $ALERT_WEBHOOK_TOKEN
+policies:
+  - orgId: 1
+    receiver: observability-webhook
+    group_by: [grafana_folder, alertname]
+    group_wait: 0s
+    group_interval: 10s
+    repeat_interval: 5m
