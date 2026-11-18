@@ -2,7 +2,7 @@
 
 Collect application metrics, traces, and logs with OpenTelemetry, then explore them in Grafana. This starter includes Prometheus, Tempo, Loki, two instrumented Python services, and alerts with webhook delivery.
 
-**Release status:** preparation in progress. The Railway template is unpublished; the 24-hour soak and release-source deployment check are pending. See [validation coverage](docs/validation.md).
+**Release status:** runtime validation is complete, including the 24-hour Railway soak and a fresh deployment from this repository. The Railway template is not yet published. See [validation coverage](docs/validation.md).
 
 ## What you deploy
 
@@ -45,7 +45,7 @@ curl http://localhost:8080/work
 
 Open <http://localhost:3000>. Sign in as `admin` with the generated `GF_SECURITY_ADMIN_PASSWORD` from `stack/.env`. The bootstrap script preserves existing credentials and creates this file with owner-only permissions. Keep it out of version control.
 
-Open the **Observability** folder and its demo dashboard. In Explore, select Loki and query `{service_name="demo-api"}`. Expand a log record and follow **View trace**; the trace includes the downstream service. Allow a few seconds for export. Send more requests to see rates and latency.
+Open **Dashboards → Application and telemetry pipeline**. In Explore, select Loki and query `{service_name="demo-api"}`. Expand a log record and follow **View trace**; the trace includes the downstream service. Allow a few seconds for export. Send more requests to see rates and latency.
 
 ## Deploy on Railway
 
