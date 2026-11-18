@@ -8,6 +8,10 @@ import json
 # Public release source; keep the /stack root directories below.
 REPO = 'https://github.com/DanielleWashington/railway-observability-starter/tree/main'
 SECRET = '${{secret(48,"abcdef0123456789")}}'
+DISPLAY_NAMES = {
+    'collector': 'Collector', 'prometheus': 'Prometheus', 'tempo': 'Tempo',
+    'loki': 'Loki', 'grafana': 'Grafana', 'downstream': 'Downstream', 'api': 'API',
+}
 
 
 def ref(service, key='RAILWAY_PRIVATE_DOMAIN'):
@@ -73,7 +77,12 @@ def contract():
                      **VARIABLES[name]}
         if mount:
             variables['RAILWAY_RUN_UID'] = '0'
-        services[name] = {
+        # Keep local role keys stable; publish names and references with product casing.
+        for key, value in variables.items():
+            for role, display_name in DISPLAY_NAMES.items():
+                value = value.replace('${{' + role + '.', '${{' + display_name + '.')
+            variables[key] = value
+        services[DISPLAY_NAMES[name]] = {
             'source': REPO, 'rootDirectory': '/stack/' + source,
             'dockerfilePath': 'Dockerfile', 'healthcheckPath': health,
             'healthcheckTimeout': None, 'numReplicas': 1,
@@ -88,7 +97,7 @@ def contract():
         }
     return {'name': 'OpenTelemetry Observability Starter',
             'description': 'Metrics, traces, logs, and alerts with OpenTelemetry and Grafana',
-            'requiredInputs': ['grafana.ALERT_WEBHOOK_URL'], 'services': services}
+            'requiredInputs': ['Grafana.ALERT_WEBHOOK_URL'], 'services': services}
 
 
 if __name__ == '__main__':

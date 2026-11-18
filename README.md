@@ -51,7 +51,7 @@ Open **Dashboards → Application and telemetry pipeline**. In Explore, select L
 
 The listing requires a workspace that supports at least five volumes and enough resources for seven running services. Usage is billed by Railway; no fixed monthly cost is promised. See [Railway volume limits](https://docs.railway.com/volumes).
 
-Provide `grafana.ALERT_WEBHOOK_URL`: an HTTPS receiver for Grafana's generic webhook JSON. Configure the receiver to accept `Authorization: Bearer <ALERT_WEBHOOK_TOKEN>` using the generated Grafana service variable. A Slack incoming-webhook URL is not a drop-in replacement for this contract.
+Provide `Grafana.ALERT_WEBHOOK_URL`: an HTTPS receiver for Grafana's generic webhook JSON. Configure the receiver to accept `Authorization: Bearer <ALERT_WEBHOOK_TOKEN>` using the generated Grafana service variable. A Slack incoming-webhook URL is not a drop-in replacement for this contract.
 
 After deployment, open Grafana's generated domain and retrieve its generated admin password from the service variables. The demo services remain private. Run requests from a service in the same environment, or connect your own instrumented application. See [configuration](docs/configuration.md) for variables, storage, and limits.
 
