@@ -2,7 +2,7 @@
 
 Collect application metrics, traces, and logs with OpenTelemetry, then explore them in Grafana. This starter includes Prometheus, Tempo, Loki, two instrumented Python services, and alerts with webhook delivery.
 
-**Release status:** runtime validation is complete, including the 24-hour Railway soak and a fresh deployment from this repository. The Railway template is not yet published. See [validation coverage](docs/validation.md).
+**Release status:** runtime validation is complete, including the 24-hour Railway soak and a fresh deployment from this repository. [Deploy the published Railway template](https://railway.com/new/template/opentelemetry-observability-starter). See [validation coverage](docs/validation.md).
 
 ## What you deploy
 
