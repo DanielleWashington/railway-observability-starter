@@ -50,7 +50,7 @@ VARIABLES = {
     'tempo': {},
     'loki': {},
     'grafana': {
-        'GF_SECURITY_ADMIN_USER': 'admin',
+        'GF_SECURITY_ADMIN_USER': '${{secret()}}',
         'GF_SECURITY_ADMIN_PASSWORD': SECRET,
         'GF_SECURITY_SECRET_KEY': SECRET,
         'GF_AUTH_ANONYMOUS_ENABLED': 'false',

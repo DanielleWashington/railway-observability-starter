@@ -8,6 +8,7 @@ password = secrets.token_hex(24)
 values = {
     "OTLP_HTPASSWD": "demo:" + password,
     "OTLP_AUTH": "Basic " + base64.b64encode(("demo:" + password).encode()).decode(),
+    "GF_SECURITY_ADMIN_USER": secrets.token_hex(16),
     "GF_SECURITY_ADMIN_PASSWORD": secrets.token_hex(24),
     "DEMO_TEST_TOKEN": secrets.token_hex(24),
 }

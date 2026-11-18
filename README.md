@@ -43,7 +43,7 @@ docker compose up -d --build
 curl http://localhost:8080/work
 ```
 
-Open <http://localhost:3000>. Sign in as `admin` with the generated `GF_SECURITY_ADMIN_PASSWORD` from `stack/.env`. The bootstrap script preserves existing credentials and creates this file with owner-only permissions. Keep it out of version control.
+Open <http://localhost:3000>. Sign in with `GF_SECURITY_ADMIN_USER` and `GF_SECURITY_ADMIN_PASSWORD` from `stack/.env`. Older local stacks without a username variable keep `admin`. The bootstrap script preserves existing credentials and creates this file with owner-only permissions. Keep it out of version control.
 
 Open **Dashboards → Application and telemetry pipeline**. In Explore, select Loki and query `{service_name="demo-api"}`. Expand a log record and follow **View trace**; the trace includes the downstream service. Allow a few seconds for export. Send more requests to see rates and latency.
 
@@ -53,7 +53,7 @@ The listing requires a workspace that supports at least five volumes and enough 
 
 Provide `Grafana.ALERT_WEBHOOK_URL`: an HTTPS receiver for Grafana's generic webhook JSON. Configure the receiver to accept `Authorization: Bearer <ALERT_WEBHOOK_TOKEN>` using the generated Grafana service variable. A Slack incoming-webhook URL is not a drop-in replacement for this contract.
 
-After deployment, open Grafana's generated domain and retrieve its generated admin password from the service variables. The demo services remain private. Run requests from a service in the same environment, or connect your own instrumented application. See [configuration](docs/configuration.md) for variables, storage, and limits.
+After deployment, open Grafana's generated domain and retrieve its generated `GF_SECURITY_ADMIN_USER` and `GF_SECURITY_ADMIN_PASSWORD` from the service variables. The demo services remain private. Run requests from a service in the same environment, or connect your own instrumented application. See [configuration](docs/configuration.md) for variables, storage, and limits.
 
 The intended template configuration is in [`stack/scripts/template_contract.py`](stack/scripts/template_contract.py). Each service uses its own `/stack/services/<name>` root; both demo services use `/stack/examples/demo`. The template supplies volumes, reference variables, health checks, and networking settings.
 

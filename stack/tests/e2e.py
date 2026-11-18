@@ -15,7 +15,7 @@ GRAFANA = os.environ.get('GRAFANA_URL', 'http://localhost:3000')
 DOWNSTREAM = os.environ.get('DOWNSTREAM_URL', 'http://downstream:8080')
 COLLECTOR = os.environ.get('COLLECTOR_URL', 'http://collector:4318')
 SINK = os.environ.get('ALERT_SINK_URL', 'http://alert-sink:8080')
-AUTH = 'Basic ' + base64.b64encode(('admin:' + os.environ['GF_SECURITY_ADMIN_PASSWORD']).encode()).decode()
+AUTH = 'Basic ' + base64.b64encode((os.environ['GF_SECURITY_ADMIN_USER'] + ':' + os.environ['GF_SECURITY_ADMIN_PASSWORD']).encode()).decode()
 RUN = uuid.uuid4().hex
 RESULTS = []
 

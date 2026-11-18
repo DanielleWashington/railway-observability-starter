@@ -40,7 +40,7 @@ with sync_playwright() as p:
     page.on('response',response)
     base=os.environ.get('GRAFANA_URL','http://grafana:3000')
     page.goto(base+'/login')
-    page.get_by_placeholder('email or username').fill('admin')
+    page.get_by_placeholder('email or username').fill(os.environ['GF_SECURITY_ADMIN_USER'])
     page.get_by_placeholder('password',exact=True).fill(os.environ['GF_SECURITY_ADMIN_PASSWORD'])
     page.get_by_role('button',name='Log in',exact=True).click()
     page.wait_for_url(lambda url: '/login' not in url,timeout=30000)
