@@ -16,7 +16,7 @@ Status as of November 18, 2026. Results below apply to the tested runtime config
 | 24-hour Railway soak at 1 request/second | Passed: 86,400 successful requests, no errors or skipped requests; exact metric delta and first/last trace-log correlation verified |
 | Deployment from this clean release repository | Passed; seven template services, full remote and browser acceptance |
 | Reader guide commands, queries, and navigation | Passed through the authenticated browser Console: exact traffic and alert commands, fresh telemetry queries, and Grafana navigation |
-| Deployment by an unrelated account | Deferred; not tested |
+| Deployment by an unrelated account through the published link | Passed on Hobby: seven services built from the public repo, five volumes, fresh credentials, full remote acceptance and Grafana browser checks |
 
 The 30-minute load test observed p95 request latency of about 15 ms and p99 of about 61 ms. The 24-hour soak observed p95 of 18.55 ms and p99 of 58.23 ms. These measurements describe the small demo workload in one environment, not general application performance.
 
@@ -25,3 +25,5 @@ The soak ran November 17–18, 2026. All 1,417 captured pipeline observations we
 The local retention test accelerates cleanup and uses aged fixtures. It does not establish multi-day Railway disk headroom. The 24-hour soak is also shorter than the default log and trace retention windows.
 
 Not validated: high availability, object-store storage, backups or recovery from volume loss, version upgrades, gRPC acceptance, legacy IPv6-only environments, or provider-specific notification integrations. Raw test records and private deployment identifiers are excluded from this repository.
+
+The independent-account test used the public deployment form on November 18. Trial correctly blocked the five-volume template at its three-volume limit; after upgrading to Hobby, deployment and all nine acceptance reports passed without patching any template service. The test used a private webhook receiver; external HTTPS delivery was validated separately.
